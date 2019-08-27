@@ -15,9 +15,9 @@ console.log('length of income: ', income.length);
 
 console.log ('period:', period, '| mission:', '₽' + mission);
 
-let newAddExpenses = addExpenses.toLowerCase();
+newAddExpenses = addExpenses.toLowerCase();
 console.log('addExpenses to lower case: ', newAddExpenses);
 console.log('split addExpenses in lower case into array: ', newAddExpenses.split(', '));
 
-let budgetDay;
-console.log('budgetDay: ', money / 30, '| %: ', money % 30);
+budgetDay = money / 30;
+console.log('budgetDay: ', budgetDay, '| %: ', money % 30);
