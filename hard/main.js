@@ -31,12 +31,11 @@ switch(lang) {
 // 'array' method
 console.log('--------')
 console.log('"array" method')
-let weekArrayRus = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-let weekArrayEng = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-(lang == 'ru') ? console.log(weekArrayRus) :
-    (lang == 'eng') ? console.log(weekArrayEng) :
-    console.log('Error. Try again. / Ошибка. Попробуйте снова.')
-;
+let arrWeekLang = [ 
+    ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+];
+(lang == 'ru') ? console.log(arrWeekLang[0]) : console.log(arrWeekLang[1]);
 
 // namePerson
 console.log('--------')
