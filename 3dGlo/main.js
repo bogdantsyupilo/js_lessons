@@ -47,8 +47,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 
     // Menu
     const toggleMenu = () => {
-        let menuBtn = document.querySelector('.menu'),
-            body = document.querySelector('body'),
+        let body = document.querySelector('body'),
             menuTag = document.querySelector('menu');
 
         document.addEventListener('click', (event) => {
@@ -70,7 +69,6 @@ window.addEventListener('DOMContentLoaded', ()=> {
             }   
         });
     };
-
     toggleMenu();
 
     // Popup
