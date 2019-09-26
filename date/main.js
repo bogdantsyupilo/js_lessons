@@ -24,8 +24,6 @@ window.addEventListener('DOMContentLoaded', function(){
                 seconds = date.getSeconds(),
                 timeOfDay = (hours >= 12) ? ' PM' : ' AM';
             
-                hours = (hours >= 12) ? hours - 12 : hours;
-            
             return {hours, minutes, seconds, weekDay, days, timeOfDay}
         }
         function getZero(time){
@@ -39,8 +37,7 @@ window.addEventListener('DOMContentLoaded', function(){
         let dateNow = getDate();
         
         function showDate(){
-            timeNow.textContent = `Текущее время : ${getZero(dateNow.hours)}:${getZero(dateNow.minutes)}:${getZero(dateNow.seconds)} ${getZero(dateNow.timeOfDay)}`;
-        
+                
             if (dateNow.hours >= 4 && dateNow.hours < 11) {
                 welcome.textContent = `Доброе утро!`;
             } else if (dateNow.hours >= 11 && dateNow.hours < 17) {
@@ -50,6 +47,10 @@ window.addEventListener('DOMContentLoaded', function(){
             } else if (dateNow.hours >= 22 && dateNow.hours < 4) {
                 welcome.textContent = `Доброй ночи!`;
             }
+
+            dateNow.hours = (dateNow.hours >= 12)? dateNow.hours - 12: dateNow.hours;
+
+            timeNow.textContent = `Текущее время : ${getZero(dateNow.hours)}:${getZero(dateNow.minutes)}:${getZero(dateNow.seconds)} ${getZero(dateNow.timeOfDay)}`;
 
             dayNow.textContent = `Сегодня : ${dateNow.weekDay}`;
             newYearTimer.textContent = `До нового года осталось : ${dateNow.days} дней`
