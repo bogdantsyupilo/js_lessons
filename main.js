@@ -76,7 +76,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 
         updateClock();
     };
-    setInterval(countTimer, 1000, '01 october 2019');
+    setInterval(countTimer, 1000, '13 october 2019');
 
     // Menu
     const toggleMenu = () => {
@@ -368,32 +368,47 @@ window.addEventListener('DOMContentLoaded', ()=> {
                 body[val[0]] = val[1];
 
             }
-            postData(body, ()=> {
-                statusMessage.textContent = successMessage;
-            }, ()=> {
-                statusMessage.textContent = errorMessage;
-                console.error(error);
-            });
+            postData(body)
+                .then(outputData)
+                .catch(error => console.error(error))
+                .then(resetForm);
         });
-        const postData = (body, outputData, errorData)=> {
-            const request = new XMLHttpRequest();
 
-            request.addEventListener('readystatechange', ()=> {
+        const outputData = () => {
+            statusMessage.textContent = successMessage;
+        };
 
-                if(request.readyState !== 4){
-                    return;
-                }
-                if(request.status === 200){
-                    outputData(); 
+        const errorData = (error) => {
+            statusMessage.textContent = errorMessage;
+            console.log(error);
+        };
 
-                } else {
-                    errorData(request.status);
-                }
+        const resetForm = () => {
+            form.reset();
+        };
+        
+        const postData = (body) => {
+            
+            return new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+
+                request.addEventListener('readystatechange', () => {
+                    if(request.readyState !== 4) {
+                        return;
+                    } 
+
+                    if(request.status === 200) {
+                        resolve();
+                    } else {
+                        reject(request.status);
+                    }
+                });
+
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.send(JSON.stringify(body));
+                resetForm();
             });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-type', 'application/json');
-            request.send(JSON.stringify(body));
         };
     };
     sendForm('form1');
