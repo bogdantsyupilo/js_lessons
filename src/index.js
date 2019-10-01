@@ -1,24 +1,37 @@
 'use strict';
 
+import "@babel/polyfill";
+import 'nodelist-foreach-polyfill';
+import elementClosest from 'element-closest';
+elementClosest(window);
+import "es6-promise/auto";
+import formData from 'formdata-polyfill';
+
+
+import imgAttribute from './modules/imgAttribute';
+import inputOnlyNum from './modules/inputOnlyNum';
 import countTimer from './modules/countTimer';
 import toggleMenu from './modules/toggleMenu';
-import handlerPopUp from './modules/handlerPopUp';
+import togglePopup from './modules/togglePopup';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
-import changePhoto from './modules/changePhoto';
 import calc from './modules/calc';
 import sendForm from './modules/sendForm';
-import inputsRegEx from './modules/inputsRegEx';
 
+// Replace attribute (data-img <-> src)
+imgAttribute();
+
+// Input Validation (only numbers)
+inputOnlyNum('.calc-block');
 
 // Timer
-countTimer('13 october 2019');
+setInterval(countTimer, 1000, '13 october 2019');
 
 // Menu
 toggleMenu();
 
 // Popup
-handlerPopUp();
+togglePopup();
 
 // Tabs
 tabs();
@@ -26,16 +39,10 @@ tabs();
 // Slider
 slider();
 
-// смена фото в секции "команда"
-changePhoto();
-
-//калькулятор
+// Calculator
 calc(100);
 
-//Формы отправки send-ajax-form
+// Send Ajax Form
 sendForm('form1');
 sendForm('form2');
 sendForm('form3');
-
-// реализация ввод с помощью регулярных выражении
-inputsRegEx();    

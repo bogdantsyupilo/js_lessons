@@ -1,81 +1,73 @@
-const sendForm = (idForm) => {
+const sendForm = (formIndex)=> {
+    const inputNumber = document.querySelectorAll('input[type = tel]'),
+    inputText = document.querySelectorAll('input[type = text]'),
+    inputMess =  document.getElementById('form2-message');
 
-    const errorMessage = 'Что-то пошло не так...',
-        loadMessage = 'Загрузка...',
-        successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
-
-    const form = document.getElementById(idForm);
-
-    const statusMessage = document.createElement('div');
-    statusMessage.style.cssText = `font-size: 24px; color: white;`;
-    
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        form.appendChild(statusMessage);
-        statusMessage.textContent = loadMessage;
-
-        const formData = new FormData(form);
-        //Создаем объект для AJAX
-        let body = {};
-        //Перебираем ключ/значение в formData
-        formData.forEach((val, key) => {
-            body[key] = val;
+    inputNumber.forEach((elem)=> {
+        elem.addEventListener('input', ()=> {
+            elem.value = elem.value.replace(/[^0-9\+]/, '');
         });
-
-        postData(body)
-            .then((response) => {
-                if(response.status !== 200) {
-                    throw new Error('status network not 200');
-                }
-                statusMessage.textContent = successMessage;
-            })
-            .catch(error => console.error(error))
-            .then(() => {
-                form.reset();
-            });
-
+    });
+    inputText.forEach((elem)=> {
+        elem.addEventListener('input', ()=> {
+            elem.value = elem.value.replace(/[^а-яё\s]/ig, '');
+        });
+    });
+    inputMess.addEventListener('input', ()=> {
+        inputMess.value = inputMess.value.replace(/[^а-яё\s\,\!\.]/ig, '');
     });
 
-    const postData = (body) => {
+    const errorMessage = `Что-то пошло не так...`,
+        loadMessage = `Отправка...`,
+        successMessage = `Спасибо! Мы свяжемся с Вами!`;
+    
+    const form = document.getElementById(formIndex),
+        statusMessage = document.createElement('div');
+
+    statusMessage.style.cssText = `font-size: 2rem;
+    color: #fff !important;
+    margin-top: 5px;`;
+
+    form.addEventListener('submit', (event)=> {
+        event.preventDefault();
+
+        form.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(form);
+        let body = {};
+
+        for(let val of formData.entries()){
+            body[val[0]] = val[1];
+
+        }
+        postData(body)
+            .then((response)=> {
+                if (response.status !== 200){
+                    throw new Error ('Status network: NOT 200');
+                }
+                statusMessage.textContent = successMessage; 
+            })
+            .catch((error)=> {
+                statusMessage.textContent = errorMessage;
+                console.error(error);
+            })
+            .then(resetForm);
+    });
+
+    const resetForm = ()=> {
+        form.reset();
+    };
+    
+    const postData = (body)=> {
 
         return fetch('./server.php', {
-            method: 'POST',// по умолчанию GET
+            method: 'POST',
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-            //То, что снизу аналогичен нынешнему запросу! 
         });
-        
-        // return new Promise((resolve, reject) => {
-        //     const request = new XMLHttpRequest();
-
-        //     request.addEventListener('readystatechange', () => {
-        //         if(request.readyState !== 4) {
-        //             return;
-        //         } 
-
-        //         if(request.status === 200) {
-        //             resolve();
-        //         } else {
-        //             reject(request.status);
-        //         }
-        //     });
-
-        //     request.open('POST', './server.php');
-
-        //     // Отправляем в form-data
-        //     // request.setRequestHeader('Content-Type', 'multipart/form-data');
-            
-        //     // Отправляем в JSON
-        //     request.setRequestHeader('Content-Type', 'application/json');
-        //     // Отправка body
-        //     request.send(JSON.stringify(body));
-           
-        // });
-
     };
-
 };
 
 export default sendForm;

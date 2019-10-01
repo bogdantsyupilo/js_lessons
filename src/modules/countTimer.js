@@ -1,52 +1,43 @@
-//timer
-const countTimer = (deadline) => {
-    const timerHours = document.querySelector('#timer-hours'),
+const countTimer = (deadline)=> {
+    let timerHours = document.querySelector('#timer-hours'),
         timerMinutes = document.querySelector('#timer-minutes'),
         timerSeconds = document.querySelector('#timer-seconds');
-
-    const getTimeRemaining = () => {
-        const dateStop = new Date(deadline).getTime(),
-        dateNow = new Date().getTime(),
-        timeRemaining = (dateStop - dateNow) / 1000,
-        seconds = Math.floor(timeRemaining % 60),
-        minutes = Math.floor((timeRemaining / 60) % 60),
-        hours = Math.floor(timeRemaining / 60 / 60);
-        return { 
-            timeRemaining,
-            hours, 
-            minutes, 
-            seconds
-        };
-    };
-
-    const Zero = (number) => {
-        if(number > 0 && number < 10) {
-            return '0' + number;
+    
+    const getZero = (time)=> {
+        if(time > 0 && time < 10){
+            return '0' + time;
         } else {
-            return number;
+            return time;
         }
     };
 
-    const updateClock = () => {
-        const timer = getTimeRemaining();
-        timerHours.textContent = Zero(timer.hours);
-        timerMinutes.textContent = Zero(timer.minutes);
-        timerSeconds.textContent = Zero(timer.seconds);
+    const getTimeRemaining = ()=> {
+        let dateStop = new Date(deadline).getTime(),
+        dateNow = new Date().getTime(),
+        timeRemaining = (dateStop - dateNow) / 1000;
 
-        if(timer.timeRemaining < 0) {
+        let seconds = Math.floor(timeRemaining % 60),
+        minutes = Math.floor((timeRemaining / 60) % 60),
+        hours = Math.floor(timeRemaining / 60 / 60);
+        return {timeRemaining, hours, minutes, seconds};
+    };
+
+    let timer = getTimeRemaining();
+
+    const updateClock = ()=> {
+
+        timerHours.textContent = getZero(timer.hours);
+        timerMinutes.textContent = getZero(timer.minutes);
+        timerSeconds.textContent = getZero(timer.seconds);
+
+        if(timer.timeRemaining < 0){
             timerHours.textContent = '00';
             timerMinutes.textContent = '00';
             timerSeconds.textContent = '00';
-        } 
-
-        if(timer.timeRemaining > 0) {
-            setTimeout(updateClock, 1000);
         }
-
     };
 
     updateClock();
-
 };
 
 export default countTimer;
