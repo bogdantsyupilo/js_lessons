@@ -374,25 +374,25 @@ window.addEventListener('DOMContentLoaded', ()=> {
                 .then(resetForm);
         });
 
-        const outputData = () => {
+        const outputData = ()=> {
             statusMessage.textContent = successMessage;
         };
 
-        const errorData = (error) => {
+        const errorData = (error)=> {
             statusMessage.textContent = errorMessage;
             console.log(error);
         };
 
-        const resetForm = () => {
+        const resetForm = ()=> {
             form.reset();
         };
         
-        const postData = (body) => {
+        const postData = (body)=> {
             
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject)=> {
                 const request = new XMLHttpRequest();
 
-                request.addEventListener('readystatechange', () => {
+                request.addEventListener('readystatechange', ()=> {
                     if(request.readyState !== 4) {
                         return;
                     } 
