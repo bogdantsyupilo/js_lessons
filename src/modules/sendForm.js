@@ -1,6 +1,7 @@
 const sendForm = (formIndex)=> {
     const inputNumber = document.querySelectorAll('input[type = tel]'),
     inputText = document.querySelectorAll('input[type = text]'),
+    inputEmail =  document.querySelectorAll('input[type = email]'),
     inputMess =  document.getElementById('form2-message');
 
     inputNumber.forEach((elem)=> {
@@ -11,6 +12,11 @@ const sendForm = (formIndex)=> {
     inputText.forEach((elem)=> {
         elem.addEventListener('input', ()=> {
             elem.value = elem.value.replace(/[^а-яё\s]/ig, '');
+        });
+    });
+    inputEmail.forEach((elem)=> {
+        elem.addEventListener('input', ()=> {
+            elem.value = elem.value.replace(/[^a-z\.\@]/ig, '');
         });
     });
     inputMess.addEventListener('input', ()=> {
